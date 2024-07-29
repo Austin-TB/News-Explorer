@@ -20,6 +20,6 @@ Welcome to the Simple News Explorer! This web project allows you to explore news
 
 ## Deployment
 
-You can explore the deployed version of this project at: [Placeholder Link](http://example.com)
+You can explore the deployed version of this project [here](https://austin-tb.github.io/News-Explorer/).
 
 Feel free to test out the features and let us know if you have any feedback or questions!
