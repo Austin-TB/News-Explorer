@@ -378,29 +378,38 @@ function debounce(func, delay) {
   };
 }
 
-// Search function
+let searchTimeoutId;
+
+// Func for search
 function performSearch() {
-  const searchTerm = searchInput.value;
-  const articles = Array.from(newsContainerDiv.children);
+  clearTimeout(searchTimeoutId);
   
-  articles.forEach(article => {
-    const title = article.querySelector('h2');
-    const content = article.querySelector('.article-content');
-    const titleText = title.textContent;
-    const contentText = content.textContent;
+  searchTimeoutId = setTimeout(() => {
+    const searchTerm = searchInput.value;
+    const articles = Array.from(newsContainerDiv.children);
     
-    if (titleText.includes(searchTerm) || contentText.includes(searchTerm)) {
-      article.style.display = 'block';
-      title.innerHTML = highlightText(titleText, searchTerm);
-      content.innerHTML = highlightText(contentText, searchTerm);
-    } else {
-      article.style.display = 'none';
-    }
-  });
-  
-  showMoreButtonState = false;
-  showMoreButton.innerText = 'Show more';
+    articles.forEach(article => {
+      const title = article.querySelector('h2');
+      const content = article.querySelector('.article-content');
+      const titleText = title.textContent;
+      const contentText = content.textContent;
+      
+      if (titleText.includes(searchTerm) || contentText.includes(searchTerm)) {
+        article.style.display = 'block';
+        title.innerHTML = highlightText(titleText, searchTerm);
+        content.innerHTML = highlightText(contentText, searchTerm);
+      } else {
+        article.style.display = 'none';
+      }
+    });
+    
+    showMoreButtonState = false;
+    showMoreButton.innerText = 'Show more';
+  }, 300);
 }
+
+// Event listener for search input
+searchInput.addEventListener('input', performSearch);
 
 //function to highlight matching text
 function highlightText(text, searchTerm) {
