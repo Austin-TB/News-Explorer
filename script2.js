@@ -358,6 +358,56 @@ const showBusinessButton = document.getElementById('filter-business');
 const showSportsButton = document.getElementById('filter-sports');
 const showPoliticsButton = document.getElementById('filter-politics');
 const showEntertainmentButton = document.getElementById('filter-entertainment');
+const searchInput = document.getElementById('search-input');
+
+//debounce function
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+// Search function
+function performSearch() {
+  const searchTerm = searchInput.value;
+  const articles = Array.from(newsContainerDiv.children);
+  
+  articles.forEach(article => {
+    const title = article.querySelector('h2');
+    const content = article.querySelector('.article-content');
+    const titleText = title.textContent;
+    const contentText = content.textContent;
+    
+    if (titleText.includes(searchTerm) || contentText.includes(searchTerm)) {
+      article.style.display = 'block';
+      
+      // Highlight matching text in title
+      title.innerHTML = highlightText(titleText, searchTerm);
+      
+      // Highlight matching text in content
+      content.innerHTML = highlightText(contentText, searchTerm);
+    } else {
+      article.style.display = 'none';
+    }
+  });
+  
+  showMoreButtonState = false;
+  showMoreButton.innerText = 'Show more';
+}
+
+// Helper function to highlight matching text
+function highlightText(text, searchTerm) {
+  if (!searchTerm) return text;
+  const parts = text.split(searchTerm);
+  return parts.join(`<mark>${searchTerm}</mark>`);
+}
+
+const debouncedSearch = debounce(performSearch, 300);
+
+//event listener for search input
+searchInput.addEventListener('input', debouncedSearch);
 
 let filtersActive = 0;
 let showMoreButtonState = false;
@@ -412,6 +462,9 @@ function updateArticles() {
 
   showMoreButtonState = false;
   showMoreButton.innerText = 'Show more';
+
+  searchInput.value = '';
+  // performSearch();
 }
 
 //function to handle filters

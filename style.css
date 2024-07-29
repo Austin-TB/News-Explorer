@@ -176,6 +176,11 @@ h1 {
     border-radius: 0 5px 5px 0;
 }
 
+mark {
+    background-color: yellow;
+    padding: 0;
+}
+
 #filter-bar {
     display: flex;
     justify-content: center;
