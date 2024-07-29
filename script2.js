@@ -351,6 +351,7 @@ const data = [
   },
 ];
 
+const sortedData = data.sort((a, b) => formatDate(b.dateAndTime) - formatDate(a.dateAndTime));
 const newsContainerDiv = document.getElementById('news-container');
 const showMoreButton = document.getElementById('show-more-button');
 const clearFilterButton = document.getElementById('filter-all');
@@ -359,6 +360,14 @@ const showSportsButton = document.getElementById('filter-sports');
 const showPoliticsButton = document.getElementById('filter-politics');
 const showEntertainmentButton = document.getElementById('filter-entertainment');
 const searchInput = document.getElementById('search-input');
+
+//func to format date
+function formatDate(dateString) {
+  const [datePart, timePart] = dateString.split(', ');
+  const [day, month, year] = datePart.split('/');
+  const [hours, minutes, seconds] = timePart.split(':');
+  return new Date(year, month - 1, day, hours, minutes, seconds);
+}
 
 //debounce function
 function debounce(func, delay) {
@@ -382,11 +391,7 @@ function performSearch() {
     
     if (titleText.includes(searchTerm) || contentText.includes(searchTerm)) {
       article.style.display = 'block';
-      
-      // Highlight matching text in title
       title.innerHTML = highlightText(titleText, searchTerm);
-      
-      // Highlight matching text in content
       content.innerHTML = highlightText(contentText, searchTerm);
     } else {
       article.style.display = 'none';
@@ -397,7 +402,7 @@ function performSearch() {
   showMoreButton.innerText = 'Show more';
 }
 
-// Helper function to highlight matching text
+//function to highlight matching text
 function highlightText(text, searchTerm) {
   if (!searchTerm) return text;
   const parts = text.split(searchTerm);
@@ -423,9 +428,11 @@ const activeFilters = {
 //func to initially display all the articles
 function showAllArticles() {
   newsContainerDiv.innerHTML = '';
-  data.forEach(article => {
+  sortedData.forEach(article => {
+    const formattedDate = formatDate(article.dateAndTime).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     newsContainerDiv.innerHTML += `<div class="news-article">
     <h2>${article.title}</h2>
+    <p class="article-date">${formattedDate}</p>
     <p class="article-content">${article.content}</p>
     </div>`;
   });
@@ -444,10 +451,12 @@ function updateArticles() {
   if (filtersActive === 0) {
     showAllArticles();
   } else {
-    data.forEach(article => {
+    sortedData.forEach(article => {
+      const formattedDate = formatDate(article.dateAndTime).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
       if (activeFilters[article.category]) {
         newsContainerDiv.innerHTML += `<div class="news-article">
         <h2>${article.title}</h2>
+        <p class="article-date">${formattedDate}</p>
         <p class="article-content">${article.content}</p>
         </div>`;
       }
@@ -464,7 +473,6 @@ function updateArticles() {
   showMoreButton.innerText = 'Show more';
 
   searchInput.value = '';
-  // performSearch();
 }
 
 //function to handle filters
