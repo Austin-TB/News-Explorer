@@ -360,6 +360,7 @@ const showSportsButton = document.getElementById('filter-sports');
 const showPoliticsButton = document.getElementById('filter-politics');
 const showEntertainmentButton = document.getElementById('filter-entertainment');
 const searchInput = document.getElementById('search-input');
+let searchTimeoutId;
 
 //func to format date
 function formatDate(dateString) {
@@ -368,17 +369,6 @@ function formatDate(dateString) {
   const [hours, minutes, seconds] = timePart.split(':');
   return new Date(year, month - 1, day, hours, minutes, seconds);
 }
-
-//debounce function
-function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
-  };
-}
-
-let searchTimeoutId;
 
 // Func for search
 function performSearch() {
@@ -417,11 +407,6 @@ function highlightText(text, searchTerm) {
   const parts = text.split(searchTerm);
   return parts.join(`<mark>${searchTerm}</mark>`);
 }
-
-const debouncedSearch = debounce(performSearch, 300);
-
-//event listener for search input
-searchInput.addEventListener('input', debouncedSearch);
 
 let filtersActive = 0;
 let showMoreButtonState = false;
