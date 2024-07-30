@@ -463,6 +463,13 @@ function updateArticles() {
   showMoreButton.innerText = 'Show more';
 
   searchInput.value = '';
+
+  Array.from(newsContainerDiv.children).forEach(article => {
+    article.addEventListener('click', function () {
+      enlargeArticle(article);
+    });
+  });
+
 }
 
 //function to handle filters
@@ -517,17 +524,10 @@ showMoreButton.addEventListener('click', () => {
 
 updateArticles();
 
-let overlay;
-
-Array.from(newsContainerDiv.children).forEach(article => {
-  article.addEventListener('click', function () {
-    enlargeArticle(article);
-  });
-})
 
 //func to enlarge clicked article
 function enlargeArticle(article) {
-  overlay = document.createElement('div');
+  let overlay = document.createElement('div');
   overlay.className = 'overlay';
   document.body.appendChild(overlay);
 
