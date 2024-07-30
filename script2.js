@@ -373,17 +373,17 @@ function formatDate(dateString) {
 // Func for search
 function performSearch() {
   clearTimeout(searchTimeoutId);
-  
+
   searchTimeoutId = setTimeout(() => {
     const searchTerm = searchInput.value;
     const articles = Array.from(newsContainerDiv.children);
-    
+
     articles.forEach(article => {
       const title = article.querySelector('h2');
       const content = article.querySelector('.article-content');
       const titleText = title.textContent;
       const contentText = content.textContent;
-      
+
       if (titleText.includes(searchTerm) || contentText.includes(searchTerm)) {
         article.style.display = 'block';
         title.innerHTML = highlightText(titleText, searchTerm);
@@ -392,7 +392,7 @@ function performSearch() {
         article.style.display = 'none';
       }
     });
-    
+
     showMoreButtonState = false;
     showMoreButton.innerText = 'Show more';
   }, 300);
@@ -402,11 +402,7 @@ function performSearch() {
 searchInput.addEventListener('input', performSearch);
 
 //function to highlight matching text
-function highlightText(text, searchTerm) {
-  if (!searchTerm) return text;
-  const parts = text.split(searchTerm);
-  return parts.join(`<mark>${searchTerm}</mark>`);
-}
+const highlightText = (text, searchTerm) => text.replace(searchTerm, `<span>${searchTerm}</span>`);
 
 let filtersActive = 0;
 let showMoreButtonState = false;
@@ -441,7 +437,7 @@ function showAllArticles() {
 //function to update news content 
 function updateArticles() {
   newsContainerDiv.innerHTML = '';
-  
+
   if (filtersActive === 0) {
     showAllArticles();
   } else {
@@ -520,3 +516,24 @@ showMoreButton.addEventListener('click', () => {
 });
 
 updateArticles();
+
+let overlay;
+
+Array.from(newsContainerDiv.children).forEach(article => {
+  article.addEventListener('click', function () {
+    enlargeArticle(article);
+  });
+})
+
+//func to enlarge clicked article
+function enlargeArticle(article) {
+  overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  document.body.appendChild(overlay);
+
+  article.classList.add('enlarged');
+  overlay.addEventListener('click', function () {
+    article.classList.remove('enlarged');
+    overlay.remove();
+  });
+}
