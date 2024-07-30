@@ -219,6 +219,7 @@ p {
     height: 20em;
     border: 2px solid #ddd;
     border-radius: 8px;
+    line-height: 1.3em;
     overflow-y: auto;
     background-color: rgb(233, 233, 233);
     padding: 15px;
