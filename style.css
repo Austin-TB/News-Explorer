@@ -301,3 +301,7 @@ p {
     z-index: 999;
     backdrop-filter: blur(8px);
 }
+
+button,input {
+    font-family: 'Manrope', sans-serif;
+}

@@ -361,6 +361,9 @@ const showPoliticsButton = document.getElementById('filter-politics');
 const showEntertainmentButton = document.getElementById('filter-entertainment');
 const searchInput = document.getElementById('search-input');
 let searchTimeoutId;
+let filtersActive = 0;
+let showMoreButtonState = false;
+showMoreButton.innerText = 'Show More';
 
 //func to format date
 function formatDate(dateString) {
@@ -398,15 +401,11 @@ function performSearch() {
   }, 300);
 }
 
-// Event listener for search input
-searchInput.addEventListener('input', performSearch);
-
 //function to highlight matching text
 const highlightText = (text, searchTerm) => text.replace(searchTerm, `<span>${searchTerm}</span>`);
 
-let filtersActive = 0;
-let showMoreButtonState = false;
-showMoreButton.innerText = 'Show More';
+// Event listener for search input
+searchInput.addEventListener('input', performSearch);
 
 const activeFilters = {
   business: false,
