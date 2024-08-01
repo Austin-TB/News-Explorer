@@ -402,7 +402,7 @@ function performSearch() {
 }
 
 //function to highlight matching text
-const highlightText = (text, searchTerm) => text.replace(searchTerm, `<span>${searchTerm}</span>`);
+const highlightText = (text, searchTerm) => text.replaceAll(searchTerm, `<span>${searchTerm}</span>`);
 
 // Event listener for search input
 searchInput.addEventListener('input', performSearch);
