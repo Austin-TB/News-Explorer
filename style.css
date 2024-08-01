@@ -169,6 +169,10 @@ h1 {
     border: none;
 }
 
+#search-input:focus {
+    outline: none
+}
+
 #search-button {
     padding: 10px 15px;
     font-size: 1em;
